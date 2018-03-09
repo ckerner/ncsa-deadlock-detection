@@ -37,13 +37,16 @@ info="${EVENT_NAME} on ${NODE_NAME} with waiter length exceeding ${LONG_WAITER} 
 echo "`date` $info" > ${LOGFILE}
 
 printf "\n\nDeadlocks:\n " >> ${LOGFILE}
-mmdiag --deadlock >> ${LOGFILE}
+/usr/lpp/mmfs/bin/mmdiag --deadlock >> ${LOGFILE}
 
 printf "\n\nWaiters:\n " >> ${LOGFILE}
-mmdiag --waiters  >> ${LOGFILE}
+/usr/lpp/mmfs/bin/mmdiag --waiters  >> ${LOGFILE}
 
 printf "\n\nThreads:\n " >> ${LOGFILE}
-mmdiag --threads  >> ${LOGFILE}
+/usr/lpp/mmfs/bin/mmdiag --threads  >> ${LOGFILE}
+
+printf "\n\nAll Diagnostic Data:\n " >> ${LOGFILE}
+/usr/lpp/mmfs/bin/mmdiag --all  >> ${LOGFILE}
 
 printf "\n\n" >> ${LOGFILE}
 echo `date`  >> ${LOGFILE}
