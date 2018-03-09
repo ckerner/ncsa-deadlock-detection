@@ -30,7 +30,8 @@ EVENT_NAME=$1
 NODE_NAME=$2
 LONG_WAITER=$3
 
-LOGFILE=/var/mmfs/tmp/deadlockDetected.out
+MYDATE=`date +"%Y%m%d_%H%M%S"`
+LOGFILE=/var/mmfs/tmp/deadlockDetected.${MYDATE}
 
 info="${EVENT_NAME} on ${NODE_NAME} with waiter length exceeding ${LONG_WAITER} seconds"
 echo "`date` $info" > ${LOGFILE}
@@ -40,6 +41,9 @@ mmdiag --deadlock >> ${LOGFILE}
 
 printf "\n\nWaiters:\n " >> ${LOGFILE}
 mmdiag --waiters  >> ${LOGFILE}
+
+printf "\n\nThreads:\n " >> ${LOGFILE}
+mmdiag --threads  >> ${LOGFILE}
 
 printf "\n\n" >> ${LOGFILE}
 echo `date`  >> ${LOGFILE}
