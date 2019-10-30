@@ -30,6 +30,9 @@ EVENT_NAME=$1
 NODE_NAME=$2
 LONG_WAITER=$3
 
+EMAIL_NOTIFICATION="root@ccsm.campuscluster.illinois.edu"
+DUMPFILE=/var/mmfs/etc/generate_full_dump
+
 MYDATE=`date +"%Y%m%d_%H%M%S"`
 LOGFILE=/var/mmfs/tmp/deadlockDetected.${MYDATE}
 
@@ -51,6 +54,11 @@ printf "\n\nAll Diagnostic Data:\n " >> ${LOGFILE}
 printf "\n\n" >> ${LOGFILE}
 echo `date`  >> ${LOGFILE}
 
-cat ${LOGFILE} | mail -s "$info" root@ccsm.campuscluster.illinois.edu
+cat ${LOGFILE} | mail -s "$info" ${EMAIL_NOTIFICATION}
 
-exit 0
+if [[ -f ${DUMPFILE} ]] ; then
+   rm -f ${DUMPFILE} &>/dev/null
+   exit 1
+else
+   exit 0
+fi
