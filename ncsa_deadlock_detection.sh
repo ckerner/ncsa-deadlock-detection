@@ -32,6 +32,7 @@ LONG_WAITER=$3
 
 EMAIL_NOTIFICATION="root@ccsm.campuscluster.illinois.edu"
 DUMPFILE=/var/mmfs/etc/generate_full_dump
+DUMP_DIR=/tmp/gpfs.deadlock
 
 MYDATE=`date +"%Y%m%d_%H%M%S"`
 LOGFILE=/var/mmfs/tmp/deadlockDetected.${MYDATE}
@@ -57,6 +58,7 @@ echo `date`  >> ${LOGFILE}
 cat ${LOGFILE} | mail -s "$info" ${EMAIL_NOTIFICATION}
 
 if [[ -f ${DUMPFILE} ]] ; then
+   /usr/lpp/mmfs/bin/gpfs.snap -d ${DUMP_DIR} -N ${NODE_NAME} --deadlock
    rm -f ${DUMPFILE} &>/dev/null
    exit 1
 else
